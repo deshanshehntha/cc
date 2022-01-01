@@ -1,0 +1,78 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet id="createTestSchema" author="me">
+        <sql dbms="postgresql" endDelimiter=";">
+            CREATE SCHEMA IF NOT EXISTS auto_db
+        </sql>
+    </changeSet>
+
+    <changeSet id="createJobTable" author="me">
+        <createTable tableName="job" schemaName="auto_db">
+            <column type="bigint" autoIncrement="true" name="job_db_id" startWith="1000">
+                <constraints primaryKey="true" primaryKeyName="job_pk" nullable="false"/>
+            </column>
+            <column type="bigint" name="fk_vehicle_db_id"/>
+            <column type="bigint" name="fk_customer_db_id"/>
+            <column type="varchar" name="repair_note"/>
+            <column type="varchar(255)" name="technician_name"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createCustomerTable" author="me">
+        <createTable tableName="customer" schemaName="auto_db">
+            <column type="bigint" autoIncrement="true" name="customer_db_id" startWith="1000">
+                <constraints primaryKey="true" primaryKeyName="customer_pk" nullable="false"/>
+            </column>
+            <column type="varchar(3000)" name="name"/>
+            <column type="varchar(255)" name="contact"/>
+            <column type="varchar(255)" name="email"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createVehicleTable" author="me">
+        <createTable tableName="vehicle" schemaName="auto_db">
+            <column type="bigint" autoIncrement="true" name="vehicle_db_id" startWith="1000">
+                <constraints primaryKey="true" primaryKeyName="vehicle_pk" nullable="false"/>
+            </column>
+            <column type="varchar(255)" name="registration_number"/>
+            <column type="varchar(255)" name="model"/>
+            <column type="numeric(15,4)" name="mileage"/>
+        </createTable>
+    </changeSet>
+
+    <!--    <changeSet id="createDoctorTable" author="me">-->
+    <!--        <createTable tableName="doctor" schemaName="lab_db">-->
+    <!--            <column type="bigint" autoIncrement="true" name="doctor_db_id" startWith="100000">-->
+    <!--                <constraints primaryKey="true" primaryKeyName="doctor_pk" nullable="false"/>-->
+    <!--            </column>-->
+    <!--            <column type="varchar(255)" name="name"/>-->
+    <!--            <column type="varchar(255)" name="hospital"/>-->
+    <!--            <column type="varchar(255)" name="address1"/>-->
+    <!--            <column type="varchar(255)" name="address2"/>-->
+    <!--            <column type="varchar(255)" name="contact_no"/>-->
+    <!--        </createTable>-->
+    <!--    </changeSet>-->
+
+    <!--    <changeSet id="createPatientTable" author="me">-->
+    <!--        <createTable tableName="patient" schemaName="lab_db">-->
+    <!--            <column type="bigint" autoIncrement="true" name="patient_db_id" startWith="100000">-->
+    <!--                <constraints primaryKey="true" primaryKeyName="patient_pk" nullable="false"/>-->
+    <!--            </column>-->
+    <!--            <column type="varchar(255)" name="name"/>-->
+    <!--            <column type="varchar(255)" name="address1"/>-->
+    <!--            <column type="varchar(255)" name="address2"/>-->
+    <!--            <column type="varchar(255)" name="contact_no1"/>-->
+    <!--            <column type="varchar(255)" name="contact_no2"/>-->
+    <!--            <column type="varchar(255)" name="national_identity_card_no"/>-->
+    <!--        </createTable>-->
+    <!--    </changeSet>-->
+
+</databaseChangeLog>

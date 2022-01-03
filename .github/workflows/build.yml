@@ -85,7 +85,7 @@ jobs:
           use_existing_version_if_available: false
           environment_name: Springbootdeploy-env
           application_name: spring-boot-deploy
-          version_label: Sample Application
-          region: us-east-1
+          version_label: ${{github.SHA}}
+          region: us-east-2
           deployment_package: demo-0.0.1-SNAPSHOT.jar
 

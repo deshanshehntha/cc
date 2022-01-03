@@ -11,7 +11,7 @@
 
 <changeSet id="createTestSchema" author="me">
         <sql dbms="postgresql" endDelimiter=";">
-            CREATE SCHEMA IF NOT EXISTS auto_db
+            CREATE SCHEMA IF NOT EXISTS auto_db;
         </sql>
     </changeSet>
 

@@ -8,7 +8,8 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
 
-    <changeSet id="createTestSchema" author="me">
+
+<changeSet id="createTestSchema" author="me">
         <sql dbms="postgresql" endDelimiter=";">
             CREATE SCHEMA IF NOT EXISTS auto_db
         </sql>
@@ -47,32 +48,5 @@
             <column type="numeric(15,4)" name="mileage"/>
         </createTable>
     </changeSet>
-
-    <!--    <changeSet id="createDoctorTable" author="me">-->
-    <!--        <createTable tableName="doctor" schemaName="lab_db">-->
-    <!--            <column type="bigint" autoIncrement="true" name="doctor_db_id" startWith="100000">-->
-    <!--                <constraints primaryKey="true" primaryKeyName="doctor_pk" nullable="false"/>-->
-    <!--            </column>-->
-    <!--            <column type="varchar(255)" name="name"/>-->
-    <!--            <column type="varchar(255)" name="hospital"/>-->
-    <!--            <column type="varchar(255)" name="address1"/>-->
-    <!--            <column type="varchar(255)" name="address2"/>-->
-    <!--            <column type="varchar(255)" name="contact_no"/>-->
-    <!--        </createTable>-->
-    <!--    </changeSet>-->
-
-    <!--    <changeSet id="createPatientTable" author="me">-->
-    <!--        <createTable tableName="patient" schemaName="lab_db">-->
-    <!--            <column type="bigint" autoIncrement="true" name="patient_db_id" startWith="100000">-->
-    <!--                <constraints primaryKey="true" primaryKeyName="patient_pk" nullable="false"/>-->
-    <!--            </column>-->
-    <!--            <column type="varchar(255)" name="name"/>-->
-    <!--            <column type="varchar(255)" name="address1"/>-->
-    <!--            <column type="varchar(255)" name="address2"/>-->
-    <!--            <column type="varchar(255)" name="contact_no1"/>-->
-    <!--            <column type="varchar(255)" name="contact_no2"/>-->
-    <!--            <column type="varchar(255)" name="national_identity_card_no"/>-->
-    <!--        </createTable>-->
-    <!--    </changeSet>-->
 
 </databaseChangeLog>

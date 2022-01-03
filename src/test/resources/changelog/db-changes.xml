@@ -7,7 +7,7 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="createTestSchema" author="me">
-        <sql dbms="postgresql" endDelimiter=";">
+        <sql dbms="h2" endDelimiter=";">
             CREATE SCHEMA IF NOT EXISTS auto_db
         </sql>
     </changeSet>

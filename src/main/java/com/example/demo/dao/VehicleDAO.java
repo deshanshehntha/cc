@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 @Repository
 public class VehicleDAO {
 
-    private final NamedParameterJdbcTemplate namedJdbcTemplate;
 
 
     public Vehicle createVehicle(Vehicle vehicle) {

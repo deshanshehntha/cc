@@ -6,16 +6,43 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="1" author="bob">
-        <createTable tableName="department">
-            <column name="id" type="int">
-                <constraints primaryKey="true" nullable="false"/>
+    <changeSet id="createTestSchema" author="me">
+        <sql dbms="postgresql" endDelimiter=";">
+            CREATE SCHEMA IF NOT EXISTS auto_db
+        </sql>
+    </changeSet>
+
+    <changeSet id="createJobTable" author="me">
+        <createTable tableName="job" schemaName="auto_db">
+            <column type="bigint" autoIncrement="true" name="job_db_id" startWith="1000">
+                <constraints primaryKey="true" primaryKeyName="job_pk" nullable="false"/>
             </column>
-            <column name="name" type="varchar(50)">
-                <constraints nullable="false"/>
+            <column type="bigint" name="fk_vehicle_db_id"/>
+            <column type="bigint" name="fk_customer_db_id"/>
+            <column type="varchar" name="repair_note"/>
+            <column type="varchar(255)" name="technician_name"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createCustomerTable" author="me">
+        <createTable tableName="customer" schemaName="auto_db">
+            <column type="bigint" autoIncrement="true" name="customer_db_id" startWith="1000">
+                <constraints primaryKey="true" primaryKeyName="customer_pk" nullable="false"/>
             </column>
-            <column name="active" type="boolean"
-                    defaultValueBoolean="true"/>
+            <column type="varchar(3000)" name="name"/>
+            <column type="varchar(255)" name="contact"/>
+            <column type="varchar(255)" name="email"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createVehicleTable" author="me">
+        <createTable tableName="vehicle" schemaName="auto_db">
+            <column type="bigint" autoIncrement="true" name="vehicle_db_id" startWith="1000">
+                <constraints primaryKey="true" primaryKeyName="vehicle_pk" nullable="false"/>
+            </column>
+            <column type="varchar(255)" name="registration_number"/>
+            <column type="varchar(255)" name="model"/>
+            <column type="numeric(15,4)" name="mileage"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

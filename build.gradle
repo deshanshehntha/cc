@@ -28,6 +28,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-test'
     implementation group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: '7.0.19'
+    testImplementation group: 'com.h2database', name: 'h2', version: '2.0.202'
 }
 
 test {

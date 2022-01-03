@@ -53,7 +53,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       #Build the application using Maven
       - name: Build with Maven
-        run: ./gradlew bootJar
+        run: ./gradlew build
       #Build the application using Maven
       - name: Upload JAR
         #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
@@ -62,7 +62,7 @@ jobs:
           #Set artifact name
           name: artifact
           #From this path
-          path: target/0.0.1-SNAPSHOT.jar
+          path: target/demo-0.0.1-SNAPSHOT.jar
   #Deploy's job
   deploy:
     #Depends on build's job
@@ -87,5 +87,5 @@ jobs:
           environment_name: Springbootdeploy-env
           version_label: ${{github.SHA}}
           region: us-east-1
-          deployment_package: 0.0.1-SNAPSHOT.jar
+          deployment_package: demo-0.0.1-SNAPSHOT.jar
 

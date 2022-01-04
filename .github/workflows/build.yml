@@ -1,7 +1,14 @@
 #Workflow name
 name: CI/CD Pipeline
 on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
   push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   #Test's job
@@ -70,6 +77,7 @@ jobs:
     name: Deploy
     #Run on Ubuntu using the latest version
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Download JAR
         #Download the artifact which was uploaded in the build's job

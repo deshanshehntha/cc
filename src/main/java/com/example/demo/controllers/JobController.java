@@ -31,4 +31,16 @@ public class JobController {
     public String healthEndpoint() {
         return "UP";
     }
+
+    @GetMapping("/{id}")
+    public Job getJobById(@PathVariable Long id) {
+        Job job = new Job();
+        job.setJobDbId(id);
+        Customer customer = new Customer();
+        customer.setCustomerDbId(10L);
+        customer.setCustomerName("John Cena");
+        job.setCustomer(customer);
+        job.setRepairNote("Removing gear oil");
+        return job;
+    }
 }

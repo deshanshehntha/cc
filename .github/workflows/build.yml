@@ -76,7 +76,7 @@ jobs:
     name: Deploy To Dev
     #Run on Ubuntu using the latest version
     runs-on: ubuntu-latest
-    if: github.event.action == 'closed' && github.event.pull_request.merged == true
+    if: github.ref == 'dev' && github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
       - name: Download JAR
         #Download the artifact which was uploaded in the build's job

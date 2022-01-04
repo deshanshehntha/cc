@@ -101,8 +101,8 @@ jobs:
     name: Deploy To Production
     #Run on Ubuntu using the latest version
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/dev' && github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
+      - run: echo ${{github.ref}}
       - name: Download JAR
         #Download the artifact which was uploaded in the build's job
         uses: actions/download-artifact@v2

@@ -1,5 +1,5 @@
 #Workflow name
-name: CI/CD Pipeline
+name: CI/CD Pipelines
 on:
   push:
 

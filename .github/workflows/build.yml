@@ -1,4 +1,4 @@
-#Workflow name
+#Workflow
 name: CI/CD Pipelines
 on:
   push:
@@ -10,80 +10,81 @@ on:
     types: [ closed ]
 
 jobs:
-  #Test's job
+  #Job 1 Test
   tests:
     name: Unit tests
     #Run on Ubuntu using the latest version
     runs-on: ubuntu-latest
-    #Job's steps
+    #Job 1 Test steps
     steps:
-      #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
+      #Check-out created repository
       - uses: actions/checkout@v1
-      #Set up JDK 11
+      #Set up JDK 8
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: '8'
-      #Set up Maven cache
+      #Set up Gradle cache
       - name: Cache Maven packages
-        #This action allows caching dependencies and build outputs to improve workflow execution time.
+        #Caching dependencies
+        #This will reduce the time
         uses: actions/cache@v1
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      #Run Tests
+      #Run Unit Tests
       - name: Run Tests
         run: ./gradlew test
-  #Build's job
+  #Job 2 Build
   build:
     needs: tests
     name: Build
-    #Run on Ubuntu using the latest version
+    #Run on Ubuntu
     runs-on: ubuntu-latest
     steps:
-      #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
+      #Check-out created repository
       - uses: actions/checkout@v1
-      #Set up JDK 11
+      #Set up JDK 8
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: '8'
-      #Set up Maven cache
+      #Set up Gradle cache
       - name: Cache Maven packages
-        #This action allows caching dependencies and build outputs to improve workflow execution time.
+        #caching dependencies.
         uses: actions/cache@v1
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      #Build the application using Maven
+      #Build the application using gradle
       - name: Build with Maven
         run: ./gradlew build
-      #Build the application using Maven
+      #Build the application using Gradle
       - name: Upload JAR
-        #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
+        #Uploads artifacts and share between jobs.
         uses: actions/upload-artifact@v2
         with:
-          #Set artifact name
+          #artifact name
           name: artifact
-          #From this path
+          #Build path of the jar file
           path: build/libs/demo-0.0.1-SNAPSHOT.jar
-  #Deploy's job
+  #Job 3 Deploy
   deploy-to-dev:
-    #Depends on build's job
+    #This will depend on job 2 - build job
     needs: build
     name: Deploy To Dev
-    #Run on Ubuntu using the latest version
+    #Run on Ubuntu
     runs-on: ubuntu-latest
     if: github.ref == 'dev' && github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
       - name: Download JAR
-        #Download the artifact which was uploaded in the build's job
+        #Download the artifact - Jar file which was uploaded previously
         uses: actions/download-artifact@v2
         with:
           name: artifact
-      #Deploy the artifact (JAR) into AWS Beanstalk
+      #Deploy the JAR into AWS Beanstalk
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v13
         with:
@@ -96,19 +97,19 @@ jobs:
           region: us-east-2
           deployment_package: demo-0.0.1-SNAPSHOT.jar
   deploy-to-production:
-    #Depends on build's job
+    #Deploy to production steps
     needs: build
     name: Deploy To Production
-    #Run on Ubuntu using the latest version
+    #Run on Ubuntu
     runs-on: ubuntu-latest
     if: github.ref == 'master' && github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
       - name: Download JAR
-        #Download the artifact which was uploaded in the build's job
+        #Download the artifact
         uses: actions/download-artifact@v2
         with:
           name: artifact
-      #Deploy the artifact (JAR) into AWS Beanstalk
+      #Deploy the JAR into AWS Beanstalk
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v13
         with:

@@ -1,3 +1,73 @@
+AWSTemplateFormatVersion: '2020-01-02'
+Resources:
+  sampleApplication:
+    Type: AWS::ElasticBeanstalk::Application
+    Properties:
+      Description: CC AWS Elastic Beanstalk 
+  sampleApplicationVersion:
+    Type: AWS::ElasticBeanstalk::v1
+    Properties:
+      ApplicationName:
+        Ref: spring-boot-deploy-dev
+      Description: AWS ElasticBeanstalk v1
+      SourceBundle:
+        S3Bucket: !Sub "elasticbeanstalk-samples-${AWS::Region}"
+        S3Key: cc-app.zip
+  sampleConfigurationTemplate:
+    Type: AWS::ElasticBeanstalk::ConfigurationTemplate
+    Properties:
+      ApplicationName:
+        Ref: spring-boot-deploy-dev
+      Description: AWS ElasticBeanstalk spring-boot-deploy-dev
+      OptionSettings:
+      - Namespace: aws:autoscaling:asg
+        OptionName: MinSize
+        Value: '2'
+      - Namespace: aws:autoscaling:asg
+        OptionName: MaxSize
+        Value: '6'
+      - Namespace: aws:elasticbeanstalk:environment
+        OptionName: EnvironmentType
+        Value: LoadBalanced
+      - Namespace: aws:autoscaling:launchconfiguration
+        OptionName: IamInstanceProfile
+        Value: !Ref MyInstanceProfile        
+      SolutionStackName: solution-stack
+  sampleEnvironment:
+    Type: AWS::ElasticBeanstalk::Environment
+    Properties:
+      ApplicationName:
+        Ref: spring-boot-deploy-dev
+      Description: AWS ElasticBeanstalk spring-boot-deploy-dev
+      TemplateName:
+        Ref: spring-boot-deploy-dev
+      VersionLabel:
+        Ref: v1
+  MyInstanceRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: 2020-01-02
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Description: Beanstalk EC2 role
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier
+        - arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker
+        - arn:aws:iam::aws:policy/AWSElasticBeanstalkWorkerTier
+  MyInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties: 
+      Roles:
+        - !Ref MyInstanceRole
+
+
+
 Outputs: {}
 AWSTemplateFormatVersion: 2010-09-09
 Parameters:
